@@ -51,4 +51,4 @@ If testing proves that a version of this product could become viable, I wanted t
 
 
 ![alt text](IMAGES/3DVIEWFRONT.png "Front 3D View")
-![alt text](IMAGES/3DVIEWBack.png "Rear 3D View")
+![alt text](IMAGES/3DVIEWBACK.png "Rear 3D View")
