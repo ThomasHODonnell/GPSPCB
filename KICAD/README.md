@@ -50,5 +50,5 @@ If testing proves that a version of this product could become viable, I wanted t
 - A 3D view for a more clear image. 
 
 
-![alt text](3DVIEWFRONT/PCB.png "Front 3D View")
-![alt text](3DVIEWBack/PCB.png "Rear 3D View")
+![alt text](IMAGES/3DVIEWFRONT.png "Front 3D View")
+![alt text](IMAGES/3DVIEWBack.png "Rear 3D View")
