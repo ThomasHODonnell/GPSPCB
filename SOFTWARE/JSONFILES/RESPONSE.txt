@@ -1,0 +1,220 @@
+{ 
+ "$schema": "http://json-schema.org/draft-04/schema#", 
+ "description": "location.io API Response Schema version 1", 
+ "definitions": { 
+ "ee": { 
+ "definitions": { 
+ "leapSecond": { 
+ "type": "object", 
+ "properties": { 
+ "currSecs": { 
+ "type": "integer" 
+ }, 
+ "nextSecs": { 
+ "type": "integer" 
+ }, 
+ "nextGpsTime": { 
+ "type": "integer" 
+ } 
+ } 
+ }, 
+ "gps": { 
+ "type": "object",
+ "properties": {
+ "seed": { 
+ "type": "string" 
+ }, 
+ "blockTypes": { 
+ "type": "string" 
+ }, 
+ "timeModel": { 
+ "type": "string" 
+ } 
+ }
+ }, 
+ "glonass": { 
+ "type": "object", 
+ "properties": { 
+ "seed": { 
+ "type": "string" 
+ }, 
+ "blockTypes": { 
+ "type": "string" 
+ }, 
+ "timeModel": { 
+ "type": "string" 
+ }, 
+ "slotFreq": { 
+ "type": "string" 
+ } 
+ } 
+ }, 
+ "beidou": { 
+ "type": "object", 
+ "properties": { 
+ "seed": { 
+ "type": "string" 
+ }, 
+ "timeModel": { 
+ "type": "string" 
+ } 
+ } 
+ }, 
+ "galileo": { 
+ "type": "object", 
+ "properties": { 
+ "seed": { 
+ "type": "string" 
+ }, 
+"timeModel": { 
+ "type": "string" 
+ } 
+ } 
+ }, 
+ "response": { 
+ "type": "object", 
+ "properties": { 
+ "ee": { 
+ "type": "object", 
+ "properties": { 
+ "status": { 
+ "type": "integer" 
+ }, 
+ "body": { 
+ "type": "object", 
+ "properties": { 
+ "leap": { 
+ "$ref": 
+"#/definitions/ee/definitions/leapSecond" 
+ }, 
+ "gps": { 
+ "$ref": "#/definitions/ee/definitions/gps" 
+ },
+ "glonass": {
+ "$ref": "#/definitions/ee/definitions/glonass" 
+ }, 
+ "beidou": { 
+ "$ref": "#/definitions/ee/definitions/beidou" 
+ }, 
+ "galileo": { 
+ "$ref": "#/definitions/ee/definitions/galileo" 
+ }, 
+ "eol": { 
+ "type": "string", 
+"format": "date-time" 
+ } 
+ } 
+ } 
+ }, 
+ "required": [ 
+ "status" 
+ ] 
+ } 
+ }, 
+ "required": [ 
+ "ee" 
+ ] 
+ } 
+ } 
+ }, 
+ "rtAssistance": { 
+ "definitions": { 
+ "response": { 
+ "type": "object", 
+ "properties": { 
+ "rtAssistance": { 
+ "type": "object", 
+ "properties": { 
+ "status": { 
+ "type": "integer" 
+ }, 
+ "body": { 
+ "type": "array", 
+ "items": { 
+ "type": "object", 
+ "minProperties": 1, 
+ "maxProperties": 1 
+ } 
+ }
+ }, 
+ "required": [ 
+ "status" 
+ ] 
+ } 
+ }, 
+ "required": [ 
+ "rtAssistance" 
+ ] 
+ } 
+ } 
+ }, 
+ "rtLocation": { 
+ "definitions": { 
+ "location": { 
+ "type": "object", 
+ "properties": { 
+ "lat": { 
+ "type": "number" 
+ }, 
+ "lon": { 
+ "type": "number" 
+ }, 
+ "alt": {
+ "type": "number" 
+ }, 
+ "uncertainty": { 
+ "type": "number" 
+ } 
+ }, 
+ "required": [ 
+ "lat", 
+ "lon" 
+ ] 
+ }, 
+"response": { 
+ "type": "object", 
+ "properties": { 
+ "rtLocation": { 
+ "type": "object", 
+ "properties": { 
+ "status": { 
+ "type": "integer" 
+ }, 
+ "body": { 
+ "type": "object", 
+ "properties": { 
+ "location": { 
+ "$ref": 
+"#/definitions/rtLocation/definitions/location" 
+ } 
+ } 
+ } 
+ }, 
+ "required": [ 
+ "status" 
+ ] 
+ } 
+ }, 
+ "required": [ 
+ "rtLocation" 
+ ] 
+ } 
+ } 
+} 
+}, 
+ "type": "array", 
+ "minItems": 1, 
+ "items": { 
+ "oneOf": [
+    { 
+ "$ref": "#/definitions/ee/definitions/response" 
+ }, 
+ { 
+ "$ref": "#/definitions/rtAssistance/definitions/response" 
+ }, 
+ { 
+ "$ref": "#/definitions/rtLocation/definitions/response" 
+ } 
+ ] 
+}
+}

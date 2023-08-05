@@ -1,0 +1,518 @@
+{ 
+"$schema": "http://json-schema.org/draft-04/schema#", 
+"description": "location.io API Request Schema version 1", 
+"definitions": { 
+ "ee": { 
+ "definitions": { 
+ "version": { 
+ "type": "integer", 
+ "minimum": 8, 
+ "maximum": 8 
+ }, 
+ "seedAge": { 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 14 
+ }, 
+ "constellation": { 
+ "enum": [ 
+ "gps", 
+ "glonass", 
+ "beidou", 
+ "galileo" 
+ ] 
+ }, 
+ "request": { 
+ "type": "object", 
+ "properties": { 
+ "ee": { 
+ "type": "object", 
+ "properties": {
+"version": { 
+ "$ref": "#/definitions/ee/definitions/version" 
+ }, 
+ "seedAge": { 
+ "$ref": "#/definitions/ee/definitions/seedAge" 
+ }, 
+ "constellations": { 
+ "type": "array", 
+ "minItems": 1, 
+ "uniqueItems": true, 
+ "items": { 
+ "$ref": "#/definitions/ee/definitions/constellation" 
+ } 
+ } 
+ }, 
+ "required": [ 
+ "version" 
+ ], 
+ "additionalProperties": false 
+ } 
+ }, 
+ "required": [ 
+ "ee" 
+ ], 
+ "additionalProperties": false 
+ } 
+ } 
+}, 
+"rtAssistance": {
+ "definitions": { 
+ "format": { 
+ "enum": [ 
+ "byte", 
+ "rinex210", 
+ "rinex212", 
+"rinex302", 
+ "rrlp861", 
+ "lpp122" 
+ ] 
+ }, 
+ "msg": { 
+ "enum": [ 
+ "GPS:1NAC", 
+ "GPS:1ALM", 
+ "GPS:1RTC", 
+ "GPS:1ION", 
+ "GPS:1UTC", 
+ "GLO:2NAC", 
+ "GLO:2NKC", 
+ "GLO:2ALM", 
+ "BDS:2NAC", 
+ "BDS:2ALM", 
+ "GAL:2NAC", 
+ "GAL:2ALM" 
+ ] 
+ }, 
+ "request": { 
+ "type": "object", 
+ "properties": { 
+ "rtAssistance": { 
+ "type": "object", 
+ "properties": { 
+ "format": { 
+ "$ref": "#/definitions/rtAssistance/definitions/format" 
+ }, 
+ "msgs": { 
+ "type": "array", 
+ "minItems": 1, 
+ "uniqueItems": true, 
+ "items": { 
+"$ref": "#/definitions/rtAssistance/definitions/msg" 
+ } 
+ } 
+ }, 
+ "required": [ 
+ "msgs" 
+ ], 
+ "additionalProperties": false 
+ } 
+ }, 
+ "required": [ 
+ "rtAssistance" 
+ ], 
+ "additionalProperties": false 
+ } 
+} 
+}, 
+"rtLocation": { 
+ "definitions": { 
+ "gsmCell": { 
+ "type": "object", 
+ "properties": { 
+ "mcc": { 
+ "description": "Mobile country code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ },
+ "mnc": { 
+ "description": "Mobile network code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "lac": { 
+"description": "Location area code", 
+ "type": "integer", 
+ "minimum": 1, 
+ "maximum": 65535 
+ }, 
+ "cid": { 
+ "description": "Cell identity", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 268435455 
+ }, 
+ "ta": { 
+ "description": "Cell timing advance, in units of 
+microseconds", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 1024 
+ }, 
+ "rxlev": { 
+ "description": "Received signal level", 
+ "type": "integer", 
+ "minimum": -121, 
+ "maximum": -25 
+ } 
+}, 
+ "required": [ 
+ "mcc", 
+ "mnc", 
+ "lac", 
+ "cid" 
+ ], 
+ "additionalProperties": false 
+ }, 
+"wcdmaCell": { 
+ "type": "object",
+ "properties": { 
+ "mcc": { 
+ "description": "Mobile country code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "mnc": { 
+ "description": "Mobile network code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "lac": { 
+ "description": "Location area code", 
+ "type": "integer", 
+ "minimum": 1, 
+ "maximum": 65535 
+ }, 
+ "rncid": { 
+ "description": "RNC ID", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 65535 
+ }, 
+ "cid": { 
+ "description": "Cell identity", 
+ "type": "integer",
+ "minimum": 0, 
+ "maximum": 268435455 
+ }, 
+ "rtt": { 
+ "description": "Round trip time. Unused. Reserved for a future 
+release.", 
+ "type": "integer",
+ "minimum": 0 
+ }, 
+ "ta": { 
+ "description": "Cell timing advance, in units of 
+microseconds", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 1024 
+ }, 
+ "rxlev": { 
+ "description": "Received signal level", 
+ "type": "integer", 
+ "minimum": -121, 
+ "maximum": -25 
+ } 
+ }, 
+ "required": [ 
+ "mcc", 
+ "mnc", 
+ "rncid", 
+ "cid" 
+ ], 
+ "additionalProperties": false 
+}, 
+ "cdmaCell": { 
+ "type": "object", 
+ "properties": { 
+ "sid": { 
+ "description": "System ID", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 32767 
+ }, 
+ "nid": { 
+ "description": "Network ID", 
+"type": "integer", 
+ "minimum": 0, 
+ "maximum": 65535 
+ }, 
+ "baseid": { 
+ "description": "Base station ID", 
+ "type": "integer", 
+ "minimum": 1, 
+ "maximum": 65535 
+ }, 
+ "refpn": { 
+ "description": "Base station PN code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 511 
+ } 
+ }, 
+ "required": [ 
+ "sid", 
+ "nid", 
+ "baseid" 
+ ], 
+ "additionalProperties": false 
+ }, 
+ "lteCell": { 
+ "type": "object", 
+ "properties": { 
+ "mcc": { 
+ "description": "Mobile country code",
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "mnc": { 
+ "description": "Mobile network code", 
+"type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "tac": { 
+ "description": "Tracking area code", 
+ "type": "integer", 
+ "minimum": 1, 
+ "maximum": 65535 
+ }, 
+ "eci": { 
+ "description": "E-UTRAN cell identifier. A 28-bit 
+combination of the 20-bit eNB ID and an 8 - bit cell ID.", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 268435455 
+ }, 
+ "phycid": { 
+ "description": "Physical cell ID", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 503 
+ }, 
+ "ta": { 
+ "description": "Cell timing advance, in units of 
+microseconds", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 1024 
+ }, 
+ "rxlev": { 
+ "description": "Received signal level", 
+ "type": "integer", 
+ "minimum": -141, 
+ "maximum": -44 
+ }
+ }, 
+ "required": [ 
+ "mcc", 
+ "mnc", 
+ "tac", 
+ "eci" 
+ ], 
+ "additionalProperties": false 
+ }, 
+ "tdscdmaCell": { 
+ "type": "object", 
+ "properties": { 
+ "mcc": { 
+ "description": "Mobile country code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "mnc": { 
+ "description": "Mobile network code", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 999 
+ }, 
+ "lac": { 
+ "description": "Location area code", 
+ "type": "integer", 
+ "minimum": 0,
+ "maximum": 65535 
+ }, 
+ "ucid": { 
+ "description": "Cell identity", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 268435455 
+}, 
+ "rtt": { 
+ "description": "Round trip time. Unused. Reserved for a 
+future release.", 
+ "type": "integer", 
+ "minimum": 0 
+ }, 
+ "ta": { 
+ "description": "Cell timing advance, in units of 
+microseconds", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 1024 
+ }, 
+ "rxlev": { 
+ "description": "Received signal level", 
+ "type": "integer", 
+ "minimum": -121, 
+ "maximum": -25 
+ } 
+ }, 
+ "required": [ 
+ "mcc", 
+ "mnc", 
+ "lac", 
+ "cid" 
+ ], 
+ "additionalProperties": false 
+ }, 
+ "wifiAP": { 
+ "type": "object", 
+ "properties": { 
+ "mac": { 
+ "description": "Unique identifier", 
+ "type": "string" 
+ }, 
+"rxlev": { 
+ "description": "Received signal level", 
+ "type": "integer", 
+ "minimum": -113, 
+ "maximum": 0 
+ }, 
+ "speed": { 
+ "description": "Connection speed. Units of Mbps.", 
+ "type": "integer", 
+ "minimum": 0, 
+ "maximum": 6930 
+ }, 
+ "ssid": { 
+ "description": "Service set identifier", 
+ "type": "string", 
+ "minLength": 1, 
+ "maxLength": 32 
+ }, 
+ "type": { 
+ "description": "WiFi type", 
+ "enum": [ 
+ "A", 
+ "B", 
+ "G", 
+ "N", 
+ "AC" 
+ ] 
+ }
+ }, 
+ "required": [ 
+ "mac" 
+ ], 
+ "additionalProperties": false 
+ }, 
+ "cell": { 
+"oneOf": [ 
+ { 
+ "type": "object", 
+ "properties": { 
+ "gsm": { 
+ "$ref": "#/definitions/rtLocation/definitions/gsmCell" 
+ } 
+ }, 
+ "additionalProperties": false 
+ }, 
+ { 
+ "type": "object", 
+ "properties": { 
+ "wcdma": { 
+ "$ref": "#/definitions/rtLocation/definitions/wcdmaCell" 
+ } 
+ }, 
+ "additionalProperties": false 
+ }, 
+ {
+ "type": "object", 
+ "properties": { 
+ "cdma": { 
+ "$ref": "#/definitions/rtLocation/definitions/cdmaCell" 
+ } 
+ }, 
+ "additionalProperties": false 
+ }, 
+ { 
+ "type": "object", 
+ "properties": { 
+ "lte": { 
+ "$ref": "#/definitions/rtLocation/definitions/lteCell" 
+ } 
+ },
+ "additionalProperties": false 
+ }, 
+ { 
+ "type": "object", 
+ "properties": { 
+ "tdscdma": { 
+ "$ref": "#/definitions/rtLocation/definitions/tdscdmaCell" 
+ } 
+ }, 
+ "additionalProperties": false 
+ }, 
+ { 
+ "type": "object", 
+ "properties": { 
+ "wifi": { 
+ "$ref": "#/definitions/rtLocation/definitions/wifiAP" 
+ } 
+ }, 
+ "additionalProperties": false 
+ } 
+ ] 
+ }, 
+ "request": { 
+ "type": "object", 
+ "properties": { 
+ "rtLocation": { 
+ "type": "object",
+ "properties": { 
+ "cells": { 
+ "type": "array", 
+ "minItems": 1, 
+ "items": { 
+ "$ref": "#/definitions/rtLocation/definitions/cell" 
+ } 
+ }
+ }, 
+ "required": [ 
+ "cells" 
+ ], 
+ "additionalProperties": false 
+ } 
+}, 
+ "required": [ 
+ "rtLocation" 
+ ], 
+ "additionalProperties": false 
+ } 
+} 
+} 
+}, 
+"type": "array", 
+"minItems": 1, 
+"items": { 
+ "oneOf": [ 
+ { 
+ "$ref": "#/definitions/rtAssistance/definitions/request" 
+ }, 
+ { 
+ "$ref": "#/definitions/ee/definitions/request" 
+ }, 
+ { 
+ "$ref": "#/definitions/rtLocation/definitions/request" 
+ } 
+] 
+} 
+}
